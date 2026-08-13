@@ -1,0 +1,67 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}
+
+Shop
+
+{% endblock %}
+
+{% block content %}
+
+<h1 class="page-title">
+
+Safari Shop
+
+</h1>
+
+<div class="product-grid">
+
+{% for product in products %}
+
+<div class="product-card">
+
+{% if product.image %}
+    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+{% else %}
+    <img src="{% static 'img/placeholder.svg' %}" alt="{{ product.name }}">
+{% endif %}
+<h2>{{ product.name }}</h2>
+
+<p>{{ product.description|truncatewords:15 }}</p>
+
+<h3>${{ product.price }}</h3>
+
+<form method="post" action="{% url 'add_to_cart' product.id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn">Add to Cart</button>
+</form>
+
+<a href="{% url 'product_detail' product.id %}" class="btn secondary">
+
+View Details
+
+</a>
+
+<a href="{% url 'edit_product' product.id %}" class="btn secondary">
+
+Edit
+
+</a>
+
+<form method="post" action="{% url 'delete_product' product.id %}" onsubmit="return confirm('Are you sure you want to delete this product?');">
+    {% csrf_token %}
+    <button type="submit" class="btn secondary" style="background:#C62828; color:white;">Delete</button>
+</form>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+<div class="create-product-link">
+    <a href="{% url 'create_product' %}" class="btn">Create New Product</a>
+</div>
+
+{% endblock %}

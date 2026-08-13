@@ -1,0 +1,54 @@
+{% extends 'store/base.html' %}
+
+{% block content %}
+
+<h1>Your Shopping Cart</h1>
+
+{% if items %}
+
+<table class="cart-table">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Subtotal</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td class="cart-product">
+                {% if item.product.image %}
+                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                {% endif %}
+                <span>{{ item.product.name }}</span>
+            </td>
+            <td>${{ item.product.price }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>${{ item.subtotal }}</td>
+            <td>
+                <form method="post" action="{% url 'remove_from_cart' item.product.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn secondary">Remove</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="cart-summary">
+    <h2>Order Total: ${{ total }}</h2>
+    <a href="{% url 'checkout' %}" class="btn">Proceed to Checkout</a>
+</div>
+
+{% else %}
+
+<p>Your cart is currently empty.</p>
+<a href="{% url 'products' %}" class="btn">Continue Shopping</a>
+
+{% endif %}
+
+{% endblock %}

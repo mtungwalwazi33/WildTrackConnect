@@ -1,0 +1,39 @@
+{% extends 'store/base.html' %}
+
+{% block content %}
+
+<h1>Book Your Safari</h1>
+
+<form>
+
+<input type="text" placeholder="Full Name">
+
+<input type="email" placeholder="Email">
+
+<label>Service</label>
+
+<select>
+
+<option>Safari Accommodation</option>
+
+<option>Game Drive</option>
+
+</select>
+
+<label>Arrival Date</label>
+
+<input type="date">
+
+<label>Guests</label>
+
+<input type="number">
+
+<button class="btn">
+
+Book Now
+
+</button>
+
+</form>
+
+{% endblock %}

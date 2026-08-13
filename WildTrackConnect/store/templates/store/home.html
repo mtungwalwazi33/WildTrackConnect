@@ -1,0 +1,126 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+
+{% block title %}
+
+WildTrackConnect
+
+{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+
+    <div class="hero-text">
+
+        <h1>
+            Experience Zimbabwe's Wild Like Never Before
+        </h1>
+
+        <p>
+
+            Book luxury safari accommodation, exciting game drives,
+            and shop premium camping, hunting,
+            photography and wildlife monitoring equipment.
+
+        </p>
+
+        <a href="{% url 'products' %}" class="btn">
+            Shop Now
+        </a>
+
+        <a href="{% url 'bookings' %}" class="btn secondary">
+            Book Safari
+        </a>
+
+        <a href="{% url 'create_product' %}" class="btn tertiary">
+            Add Product
+        </a>
+
+    </div>
+
+</section>
+
+<section class="categories">
+
+<h2>Our Categories</h2>
+
+<div class="category-grid">
+
+<div class="category-card">
+🏨
+<h3>Safari Accommodation</h3>
+</div>
+
+<div class="category-card">
+🦁
+<h3>Game Drives</h3>
+</div>
+
+<div class="category-card">
+⛺
+<h3>Camping Equipment</h3>
+</div>
+
+<div class="category-card">
+📷
+<h3>Photography Equipment</h3>
+</div>
+
+<div class="category-card">
+🏹
+<h3>Hunting Equipment</h3>
+</div>
+
+<div class="category-card">
+🚁
+<h3>Monitoring Drones</h3>
+</div>
+
+</div>
+
+</section>
+
+<section class="featured">
+
+<h2>Featured Products</h2>
+
+<div class="product-grid">
+
+{% for product in products %}
+
+<div class="product-card">
+
+{% if product.image %}
+<img src="{{ product.image.url }}" alt="{{ product.name }}">
+{% else %}
+<img src="{% static 'img/placeholder.svg' %}" alt="{{ product.name }}">
+{% endif %}
+
+<h3>{{ product.name }}</h3>
+
+<p>${{ product.price }}</p>
+
+<form method="post" action="{% url 'add_to_cart' product.id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn">Add to Cart</button>
+</form>
+
+<a href="{% url 'product_detail' product.id %}" class="btn secondary">
+View Details
+</a>
+
+</div>
+
+{% empty %}
+
+<p>No products yet.</p>
+
+{% endfor %}
+
+</div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends 'store/base.html' %}
+
+{% block title %}
+Edit Product
+{% endblock %}
+
+{% block content %}
+
+<div class="form-container">
+
+    <h1 class="page-title">Edit Product</h1>
+
+    <form method="post" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        <div class="form-group">
+
+            <label for="name">Product Name</label>
+
+            <input type="text" id="name" name="name" value="{{ name|default:product.name }}" required>
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="description">Description</label>
+
+            <textarea id="description" name="description">{{ description|default:product.description }}</textarea>
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="price">Price ($)</label>
+
+            <input type="number" id="price" name="price" step="0.01" value="{{ price|default:product.price }}" required>
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="stock">Stock Quantity</label>
+
+            <input type="number" id="stock" name="stock" value="{{ stock|default:product.stock }}">
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="image">Product Image</label>
+
+            {% if product.image %}
+                <p>Current image: <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-height: 100px;"></p>
+            {% endif %}
+
+            <input type="file" id="image" name="image" accept="image/*">
+
+        </div>
+
+        <button type="submit" class="btn">Update Product</button>
+
+        <a href="{% url 'products' %}" class="btn secondary">Cancel</a>
+
+    </form>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}
+{{ product.name }}
+{% endblock %}
+
+{% block content %}
+<div class="product-details">
+
+    {% if product.image %}
+        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+    {% else %}
+        <img src="{% static 'img/placeholder.svg' %}" alt="{{ product.name }}">
+    {% endif %}
+
+    <div class="product-info">
+        <h1>{{ product.name }}</h1>
+        <h2>${{ product.price }}</h2>
+        <p>{{ product.description }}</p>
+        <p>Stock: {{ product.stock }}</p>
+
+        <form method="post" action="{% url 'add_to_cart' product.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn">Add to Cart</button>
+        </form>
+
+        <a href="{% url 'edit_product' product.id %}" class="btn secondary">Edit Product</a>
+
+        <form method="post" action="{% url 'delete_product' product.id %}" onsubmit="return confirm('Are you sure you want to delete this product?');">
+            {% csrf_token %}
+            <button type="submit" class="btn secondary" style="background:#C62828; color:white;">Delete Product</button>
+        </form>
+
+        <a href="{% url 'products' %}" class="btn secondary">Back to Shop</a>
+    </div>
+
+</div>
+{% endblock %}

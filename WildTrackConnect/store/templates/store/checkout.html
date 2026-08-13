@@ -1,0 +1,124 @@
+{% extends 'store/base.html' %}
+
+{% block content %}
+
+<h1 class="page-title">Checkout</h1>
+
+{% if items %}
+
+<div class="checkout-container">
+
+    <div class="checkout-order">
+
+        <h2>Order Summary</h2>
+
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Qty</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>${{ item.subtotal }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2 class="order-total">Total: ${{ total }}</h2>
+
+    </div>
+
+    <div class="checkout-form">
+
+        <h2>Delivery Details</h2>
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            <div class="form-group">
+
+                <label for="full_name">Full Name</label>
+
+                <input type="text" id="full_name" name="full_name" required>
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="email">Email</label>
+
+                <input type="email" id="email" name="email" required>
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="phone">Phone Number</label>
+
+                <input type="text" id="phone" name="phone" required>
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="address">Delivery Address</label>
+
+                <textarea id="address" name="address" required></textarea>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Payment Method</label>
+
+                <div class="payment-options">
+
+                    <label class="payment-option">
+                        <input type="radio" name="payment_method" value="EcoCash" required>
+                        <span>EcoCash</span>
+                    </label>
+
+                    <label class="payment-option">
+                        <input type="radio" name="payment_method" value="PayPal">
+                        <span>PayPal</span>
+                    </label>
+
+                    <label class="payment-option">
+                        <input type="radio" name="payment_method" value="OneMoney">
+                        <span>OneMoney</span>
+                    </label>
+
+                    <label class="payment-option">
+                        <input type="radio" name="payment_method" value="ZIMSwitch">
+                        <span>ZIMSwitch</span>
+                    </label>
+
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn">Place Order</button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% else %}
+
+<p>Your cart is currently empty.</p>
+
+<a href="{% url 'products' %}" class="btn">Continue Shopping</a>
+
+{% endif %}
+
+{% endblock %}
