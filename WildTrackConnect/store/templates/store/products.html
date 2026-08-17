@@ -15,52 +15,57 @@ Safari Shop
 
 </h1>
 
+{% if selected_category %}
+<div class="category-filter" style="text-align:center; margin-bottom:30px;">
+    <p style="font-size:18px; color:#1b4332;">
+        Filtering by: <strong>{{ selected_category_display }}</strong>
+        <a href="{% url 'products' %}" class="btn secondary" style="margin-left:15px; padding:8px 20px; font-size:14px;">Clear Filter</a>
+    </p>
+</div>
+{% endif %}
+
 <div class="product-grid">
 
 {% for product in products %}
 
-<div class="product-card">
+<a href="{% url 'product_detail' product.id %}" class="product-card" style="cursor:pointer; text-decoration:none;">
 
 {% if product.image %}
     <img src="{{ product.image.url }}" alt="{{ product.name }}">
 {% else %}
     <img src="{% static 'img/placeholder.svg' %}" alt="{{ product.name }}">
 {% endif %}
+
+<div class="card-body">
+
 <h2>{{ product.name }}</h2>
 
-<p>{{ product.description|truncatewords:15 }}</p>
+<p>{{ product.description|truncatewords:18 }}</p>
 
-<h3>${{ product.price }}</h3>
+<div class="price">${{ product.price }}</div>
 
-<form method="post" action="{% url 'add_to_cart' product.id %}">
+<div class="card-actions">
+
+<form method="post" action="{% url 'add_to_cart' product.id %}" style="flex:1; min-width:120px;">
     {% csrf_token %}
     <button type="submit" class="btn">Add to Cart</button>
 </form>
 
-<a href="{% url 'product_detail' product.id %}" class="btn secondary">
-
-View Details
-
-</a>
-
-<a href="{% url 'edit_product' product.id %}" class="btn secondary">
-
-Edit
-
-</a>
-
-<form method="post" action="{% url 'delete_product' product.id %}" onsubmit="return confirm('Are you sure you want to delete this product?');">
-    {% csrf_token %}
-    <button type="submit" class="btn secondary" style="background:#C62828; color:white;">Delete</button>
-</form>
+</div>
 
 </div>
+
+</a>
+
+{% empty %}
+
+<p style="text-align:center; font-size:18px; color:#6b7280;">No products found in this category.</p>
 
 {% endfor %}
 
 </div>
 
-<div class="create-product-link">
+<div class="create-product-link" style="text-align:center; margin-top:40px;">
     <a href="{% url 'create_product' %}" class="btn">Create New Product</a>
 </div>
 

@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h1 class="page-title">Checkout</h1>
+<div class="page-title" style="margin-top:30px;">Checkout</div>
 
 {% if items %}
 
@@ -31,7 +31,7 @@
             </tbody>
         </table>
 
-        <h2 class="order-total">Total: ${{ total }}</h2>
+        <div class="order-total">Total: ${{ total }}</div>
 
     </div>
 
@@ -115,9 +115,11 @@
 
 {% else %}
 
-<p>Your cart is currently empty.</p>
+<p style="text-align:center; font-size:18px; color:#6b7280; padding:60px 8%;">Your cart is currently empty.</p>
 
-<a href="{% url 'products' %}" class="btn">Continue Shopping</a>
+<div style="text-align:center;">
+    <a href="{% url 'products' %}" class="btn">Continue Shopping</a>
+</div>
 
 {% endif %}
 

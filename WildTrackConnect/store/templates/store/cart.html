@@ -2,9 +2,11 @@
 
 {% block content %}
 
-<h1>Your Shopping Cart</h1>
+<div class="page-title" style="margin-top:30px;">Your Shopping Cart</div>
 
 {% if items %}
+
+<div style="max-width:1000px; margin:0 auto; padding:0 8% 80px;">
 
 <table class="cart-table">
     <thead>
@@ -31,7 +33,7 @@
             <td>
                 <form method="post" action="{% url 'remove_from_cart' item.product.id %}">
                     {% csrf_token %}
-                    <button type="submit" class="btn secondary">Remove</button>
+                    <button type="submit" class="btn danger" style="padding:8px 16px; font-size:13px;">Remove</button>
                 </form>
             </td>
         </tr>
@@ -39,15 +41,19 @@
     </tbody>
 </table>
 
-<div class="cart-summary">
-    <h2>Order Total: ${{ total }}</h2>
+<div class="cart-summary" style="display:flex; justify-content:space-between; align-items:center; margin-top:30px; padding-top:20px; border-top:1px solid #e5e7eb;">
+    <h2 style="color:#1b4332; font-size:24px;">Order Total: ${{ total }}</h2>
     <a href="{% url 'checkout' %}" class="btn">Proceed to Checkout</a>
+</div>
+
 </div>
 
 {% else %}
 
-<p>Your cart is currently empty.</p>
-<a href="{% url 'products' %}" class="btn">Continue Shopping</a>
+<p style="text-align:center; font-size:18px; color:#6b7280; padding:60px 8%;">Your cart is currently empty.</p>
+<div style="text-align:center;">
+    <a href="{% url 'products' %}" class="btn">Continue Shopping</a>
+</div>
 
 {% endif %}
 

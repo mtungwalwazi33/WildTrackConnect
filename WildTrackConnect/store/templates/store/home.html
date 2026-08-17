@@ -26,17 +26,21 @@ WildTrackConnect
 
         </p>
 
-        <a href="{% url 'products' %}" class="btn">
-            Shop Now
-        </a>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
 
-        <a href="{% url 'bookings' %}" class="btn secondary">
-            Book Safari
-        </a>
+            <a href="{% url 'products' %}" class="btn">
+                Shop Now
+            </a>
 
-        <a href="{% url 'create_product' %}" class="btn tertiary">
-            Add Product
-        </a>
+            <a href="{% url 'bookings' %}" class="btn secondary">
+                Book Safari
+            </a>
+
+            <a href="{% url 'create_product' %}" class="btn secondary">
+                Add Product
+            </a>
+
+        </div>
 
     </div>
 
@@ -48,35 +52,35 @@ WildTrackConnect
 
 <div class="category-grid">
 
-<div class="category-card">
-🏨
-<h3>Safari Accommodation</h3>
-</div>
+<a href="{% url 'products' %}?category=accommodation" class="category-card">
+    <div class="category-icon">🏨</div>
+    <h3>Safari Accommodation</h3>
+</a>
 
-<div class="category-card">
-🦁
-<h3>Game Drives</h3>
-</div>
+<a href="{% url 'products' %}?category=game_drives" class="category-card">
+    <div class="category-icon">🦁</div>
+    <h3>Game Drives</h3>
+</a>
 
-<div class="category-card">
-⛺
-<h3>Camping Equipment</h3>
-</div>
+<a href="{% url 'products' %}?category=camping" class="category-card">
+    <div class="category-icon">⛺</div>
+    <h3>Camping Equipment</h3>
+</a>
 
-<div class="category-card">
-📷
-<h3>Photography Equipment</h3>
-</div>
+<a href="{% url 'products' %}?category=photography" class="category-card">
+    <div class="category-icon">📷</div>
+    <h3>Photography Equipment</h3>
+</a>
 
-<div class="category-card">
-🏹
-<h3>Hunting Equipment</h3>
-</div>
+<a href="{% url 'products' %}?category=hunting" class="category-card">
+    <div class="category-icon">🏹</div>
+    <h3>Hunting Equipment</h3>
+</a>
 
-<div class="category-card">
-🚁
-<h3>Monitoring Drones</h3>
-</div>
+<a href="{% url 'products' %}?category=drones" class="category-card">
+    <div class="category-icon">🚁</div>
+    <h3>Monitoring Drones</h3>
+</a>
 
 </div>
 
@@ -90,7 +94,7 @@ WildTrackConnect
 
 {% for product in products %}
 
-<div class="product-card">
+<a href="{% url 'product_detail' product.id %}" class="product-card" style="cursor:pointer; text-decoration:none;">
 
 {% if product.image %}
 <img src="{{ product.image.url }}" alt="{{ product.name }}">
@@ -98,20 +102,26 @@ WildTrackConnect
 <img src="{% static 'img/placeholder.svg' %}" alt="{{ product.name }}">
 {% endif %}
 
+<div class="card-body">
+
 <h3>{{ product.name }}</h3>
 
-<p>${{ product.price }}</p>
+<p>{{ product.description|truncatewords:15 }}</p>
 
-<form method="post" action="{% url 'add_to_cart' product.id %}">
+<div class="price">${{ product.price }}</div>
+
+<div class="card-actions">
+
+<form method="post" action="{% url 'add_to_cart' product.id %}" style="flex:1; min-width:120px;">
     {% csrf_token %}
     <button type="submit" class="btn">Add to Cart</button>
 </form>
 
-<a href="{% url 'product_detail' product.id %}" class="btn secondary">
-View Details
-</a>
+</div>
 
 </div>
+
+</a>
 
 {% empty %}
 

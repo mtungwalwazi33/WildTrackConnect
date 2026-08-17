@@ -48,6 +48,30 @@ Add Product
 
         <div class="form-group">
 
+            <label for="category">Category</label>
+
+            <select id="category" name="category">
+
+                <option value="">Select Category</option>
+
+                <option value="accommodation" {% if category == 'accommodation' %}selected{% endif %}>Safari Accommodation</option>
+
+                <option value="game_drives" {% if category == 'game_drives' %}selected{% endif %}>Game Drives</option>
+
+                <option value="camping" {% if category == 'camping' %}selected{% endif %}>Camping Equipment</option>
+
+                <option value="photography" {% if category == 'photography' %}selected{% endif %}>Photography Equipment</option>
+
+                <option value="hunting" {% if category == 'hunting' %}selected{% endif %}>Hunting Equipment</option>
+
+                <option value="drones" {% if category == 'drones' %}selected{% endif %}>Monitoring Drones</option>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
             <label for="image">Product Image</label>
 
             <input type="file" id="image" name="image" accept="image/*">

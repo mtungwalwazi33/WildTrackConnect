@@ -13,8 +13,17 @@ def home(request):
 
 
 def products(request):
-    products = Product.objects.all()
-    return render(request, 'store/products.html', {'products': products})
+    category = request.GET.get('category')
+    if category:
+        products = Product.objects.filter(category=category)
+    else:
+        products = Product.objects.all()
+    selected_category_display = category.replace('_', ' ').title() if category else None
+    return render(request, 'store/products.html', {
+        'products': products,
+        'selected_category': category,
+        'selected_category_display': selected_category_display,
+    })
 
 
 def product_detail(request, product_id):
@@ -28,6 +37,7 @@ def create_product(request):
         description = request.POST.get('description', '').strip()
         price = request.POST.get('price', '0').strip()
         stock = request.POST.get('stock', '0').strip()
+        category = request.POST.get('category', '').strip()
         image = request.FILES.get('image')
 
         if not name or not price:
@@ -37,6 +47,7 @@ def create_product(request):
                 'description': description,
                 'price': price,
                 'stock': stock,
+                'category': category,
             })
 
         try:
@@ -48,6 +59,7 @@ def create_product(request):
                 'description': description,
                 'price': price,
                 'stock': stock,
+                'category': category,
             })
 
         try:
@@ -60,12 +72,13 @@ def create_product(request):
             description=description,
             price=price_value,
             stock=max(stock_value, 0),
+            category=category,
             image=image,
         )
         messages.success(request, 'Product created successfully.')
         return redirect('products')
 
-    return render(request, 'store/create_product.html')
+    return render(request, 'store/create_product.html', {'category': ''})
 
 
 def edit_product(request, product_id):
@@ -76,6 +89,7 @@ def edit_product(request, product_id):
         description = request.POST.get('description', '').strip()
         price = request.POST.get('price', '0').strip()
         stock = request.POST.get('stock', '0').strip()
+        category = request.POST.get('category', '').strip()
         image = request.FILES.get('image')
 
         if not name or not price:
@@ -86,6 +100,7 @@ def edit_product(request, product_id):
                 'description': description,
                 'price': price,
                 'stock': stock,
+                'category': category,
             })
 
         try:
@@ -98,6 +113,7 @@ def edit_product(request, product_id):
                 'description': description,
                 'price': price,
                 'stock': stock,
+                'category': category,
             })
 
         try:
@@ -109,6 +125,7 @@ def edit_product(request, product_id):
         product.description = description
         product.price = price_value
         product.stock = max(stock_value, 0)
+        product.category = category
         if image:
             product.image = image
         product.save()
